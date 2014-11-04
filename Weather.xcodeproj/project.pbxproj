@@ -146,7 +146,8 @@
 				43F3E5C41A09639600242D9B /* AFURLSessionManager.h */,
 				43F3E5C51A09639600242D9B /* AFURLSessionManager.m */,
 			);
-			path = AFNetworking;
+			name = AFNetworking;
+			path = ../AFNetworking;
 			sourceTree = "<group>";
 		};
 		43F3E5CF1A0963A800242D9B /* UIKit+AFNetworking */ = {
@@ -170,14 +171,13 @@
 				43F3E5DF1A0963A800242D9B /* UIWebView+AFNetworking.h */,
 				43F3E5E01A0963A800242D9B /* UIWebView+AFNetworking.m */,
 			);
-			path = "UIKit+AFNetworking";
+			name = "UIKit+AFNetworking";
+			path = "../UIKit+AFNetworking";
 			sourceTree = "<group>";
 		};
 		D233D06016B400EF005212DE = {
 			isa = PBXGroup;
 			children = (
-				43F3E5CF1A0963A800242D9B /* UIKit+AFNetworking */,
-				43F3E5B21A09639600242D9B /* AFNetworking */,
 				D233D07516B400EF005212DE /* Weather */,
 				D233D06E16B400EF005212DE /* Frameworks */,
 				D233D06C16B400EF005212DE /* Products */,
@@ -209,6 +209,8 @@
 		D233D07516B400EF005212DE /* Weather */ = {
 			isa = PBXGroup;
 			children = (
+				43F3E5CF1A0963A800242D9B /* UIKit+AFNetworking */,
+				43F3E5B21A09639600242D9B /* AFNetworking */,
 				D233D08716B400EF005212DE /* MainStoryboard.storyboard */,
 				D233D0D016B405D5005212DE /* NSDictionary+weather.h */,
 				D233D0D116B405D5005212DE /* NSDictionary+weather.m */,

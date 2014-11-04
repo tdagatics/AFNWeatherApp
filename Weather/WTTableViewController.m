@@ -13,6 +13,8 @@
 #import "NSDictionary+weather.h"
 #import "NSDictionary+weather_package.h"
 
+static NSString *const BaseURLString = @"http://www.raywenderlich.com/demos/weather_sample/";
+
 @interface WTTableViewController ()
 @property(strong) NSDictionary *weather;
 @end
@@ -83,7 +85,31 @@
 
 - (IBAction)jsonTapped:(id)sender
 {
+    // 1
+    NSString *string = [NSString stringWithFormat:@"%@weather.php?format=json", BaseURLString];
+    NSURL *url = [NSURL URLWithString:string];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
+    // 2
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    operation.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // 3
+        
+        self.weather = (NSDictionary *)responseObject;
+        self.title = @"JSON Retrieved";
+        [self.tableView reloadData];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        // 4
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving Weather" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertView show];
+    }];
+    
+    // 5
+    [operation start];
 }
 
 - (IBAction)plistTapped:(id)sender
@@ -115,6 +141,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (!self.weather)
+        return 0;
+    
+    switch (section) {
+        case 0: {
+            return 1;
+        }
+        case 1: {
+            NSArray *upcomingWeather = [self.weather upcomingWeather];
+            return [upcomingWeather count];
+        }
+        default:
+            return 0;
+            
+    }
     return 0;
 }
 
@@ -123,9 +164,26 @@
     static NSString *CellIdentifier = @"WeatherCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
+    NSDictionary *daysWeather = nil;
     
+    switch (indexPath.section) {
+        case 0: {
+            daysWeather = [self.weather currentCondition];
+            break;
+        }
+            
+        case 1: {
+            NSArray *upcomingWeather = [self.weather upcomingWeather];
+            daysWeather = upcomingWeather[indexPath.row];
+            break;
+        }
+            
+        default:
+            break;
+    }
     
+    cell.textLabel.text = [daysWeather weatherDescription];
+
     return cell;
 }
 

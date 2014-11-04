@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AEAFFCF9-D64B-4D7E-8551-727982CD04CA</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Weather</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>926C81E655A0F25AEA8A96C0D9E6A0647E1ED192</key>
+		<string>https://github.com/tdagatics/AFNWeatherApp.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Weather.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>926C81E655A0F25AEA8A96C0D9E6A0647E1ED192</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/tdagatics/AFNWeatherApp.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>926C81E655A0F25AEA8A96C0D9E6A0647E1ED192</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>926C81E655A0F25AEA8A96C0D9E6A0647E1ED192</string>
+			<key>IDESourceControlWCCName</key>
+			<string>WeatherStarter</string>
+		</dict>
+	</array>
+</dict>
+</plist>
