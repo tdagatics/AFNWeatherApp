@@ -261,4 +261,47 @@ static NSString *const BaseURLString = @"http://www.raywenderlich.com/demos/weat
     [self.outstring appendFormat:@"%@", string];
 }
 
+-(void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+{
+    // 1
+    if ([qName isEqualToString:@"current_condition"] ||
+        [qName isEqualToString:@"request"]) {
+        self.xmlWeather[qName] = @[self.currentDictionary];
+        self.currentDictionary = nil;
+    }
+    
+    // 2
+    else if ([qName isEqualToString:@"weather"]) {
+        
+        // Initialize the list of weather items if it doesn't exist
+        NSMutableArray *array = self.xmlWeather[@"weather"] ?: [NSMutableArray array];
+        
+        // Add the current weather object
+        [array addObject:self.currentDictionary];
+        
+        // Set the new array to the "weather" key on xmlWeather dictionary
+        self.xmlWeather[@"weather"] = array;
+        
+        self.currentDictionary = nil;
+    }
+    
+    // 3
+    else if ([qName isEqualToString:@"value"]) {
+        // Ignore value tags, they only appear in the two conditions below
+    }
+    
+    // 4
+    else if ([qName isEqualToString:@"weatherDesc"] ||
+             [qName isEqualToString:@"weatherIconUrl"]) {
+        NSDictionary *dictionary = @{@"value": self.outstring};
+        NSArray *array = @[dictionary];
+        self.currentDictionary[qName] = array;
+    }
+    // 5
+    else if (qName) {
+        self.currentDictionary[qName] = self.outstring;
+    }
+    
+    self.elementName = nil;
+}
 @end
