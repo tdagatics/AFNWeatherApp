@@ -8,6 +8,7 @@
 
 #import "WeatherHTTPClient.h"
 static NSString *const WorldWeatherOnlineAPIKey = @"9f02227cd2d01636a6bc7fbb66d03";
+
 static NSString *const WorldWeatherOnlineURLString = @"http://api.worldweatheronline.com/free/v1/";
 
 @implementation WeatherHTTPClient
