@@ -17,6 +17,10 @@ static NSString *const BaseURLString = @"http://www.raywenderlich.com/demos/weat
 
 @interface WTTableViewController ()
 @property(strong) NSDictionary *weather;
+@property (nonatomic, strong) NSMutableDictionary *currentDictionary; // current section being parsed
+@property (nonatomic, strong) NSMutableDictionary *xmlWeather; // completed parsed xml response
+@property (nonatomic, strong) NSString *elementName;
+@property (nonatomic, strong) NSMutableString *outstring;
 @end
 
 @implementation WTTableViewController
@@ -137,7 +141,26 @@ static NSString *const BaseURLString = @"http://www.raywenderlich.com/demos/weat
 
 - (IBAction)xmlTapped:(id)sender
 {
+    NSString *string = [NSString stringWithFormat:@"%@weather.php?format=xml", BaseURLString];
+    NSURL *url = [NSURL URLWithString:string];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    
+    // Make sure to set the responseSerializer correctly
+    operation.responseSerializer = [AFXMLParserResponseSerializer serializer];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSXMLParser *XMLParser = (NSXMLParser *)responseObject;
+        [XMLParser setShouldProcessNamespaces:YES];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving Weather" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        
+        [alertView show];
+    }];
+    
+    [operation start];
 }
 
 - (IBAction)clientTapped:(id)sender
@@ -211,6 +234,31 @@ static NSString *const BaseURLString = @"http://www.raywenderlich.com/demos/weat
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
+}
+
+-(void)parserDidStartDocument:(NSXMLParser *)parser
+{
+    self.xmlWeather = [NSMutableDictionary dictionary];
+}
+
+-(void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
+    self.elementName = qName;
+    
+    if ([qName isEqualToString:@"current_condition"] ||
+        [qName isEqualToString:@"weather"] ||
+        [qName isEqualToString:@"request"]) {
+        self.currentDictionary = [NSMutableDictionary dictionary];
+    }
+    
+    self.outstring = [NSMutableString string];
+}
+
+-(void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
+{
+    if (!self.elementName)
+        return;
+    
+    [self.outstring appendFormat:@"%@", string];
 }
 
 @end
